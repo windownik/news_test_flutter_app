@@ -1,9 +1,9 @@
-/// Базовый контракт use case (без зависимостей от Flutter).
+/// Base use case contract without Flutter dependencies.
 abstract class UseCase<T, Params> {
   Future<T> call(Params params);
 }
 
-/// Use case без параметров.
+/// Use case without parameters.
 abstract class UseCaseNoParams<T> {
   Future<T> call();
 }

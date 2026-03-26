@@ -1,11 +1,11 @@
 import '../../../domain/entities/news_entity.dart';
 
-/// Состояния экрана новостей (список / избранное / детали).
+/// States for the news screen (list, favorites, details).
 sealed class NewsState {
   const NewsState();
 }
 
-/// Все новости с сети.
+/// All news loaded from the network.
 class AllNewsState extends NewsState {
   const AllNewsState({
     this.items = const [],
@@ -18,7 +18,7 @@ class AllNewsState extends NewsState {
   final String? error;
 }
 
-/// Избранное из Hive.
+/// Favorites loaded from Hive.
 class FavoriteNewsState extends NewsState {
   const FavoriteNewsState({
     this.items = const [],
@@ -31,7 +31,7 @@ class FavoriteNewsState extends NewsState {
   final String? error;
 }
 
-/// Детали одной новости.
+/// Details for a single news item.
 class SingleNewsState extends NewsState {
   const SingleNewsState({
     this.news,

@@ -3,7 +3,7 @@ import '../../../domain/repositories_interfaces/i_news_repository.dart';
 import '../../base/base_view_wrapper.dart';
 import 'news_state.dart';
 
-/// Управляет потоком [NewsState] и загрузкой из сети / локального хранилища.
+/// Manages the [NewsState] stream and loading from network or local storage.
 class NewsViewWrapper extends BaseViewWrapper<NewsState> {
   NewsViewWrapper(this._repository)
     : super(const AllNewsState(isLoading: true));
@@ -12,7 +12,7 @@ class NewsViewWrapper extends BaseViewWrapper<NewsState> {
   String _selectedCategory = 'general';
   String _searchQuery = '';
 
-  /// Загрузить все новости из сети и показать список.
+  /// Loads all news from the network and shows the list.
   Future<void> showAll({String? category, String? query}) async {
     final resolvedCategory = category ?? _selectedCategory;
     final resolvedQuery = query ?? _searchQuery;
@@ -30,7 +30,7 @@ class NewsViewWrapper extends BaseViewWrapper<NewsState> {
     }
   }
 
-  /// Показать избранное из NoSQL (Hive).
+  /// Shows favorites from NoSQL storage (Hive).
   Future<void> showFavorites() async {
     emit(const FavoriteNewsState(isLoading: true));
     try {
@@ -41,7 +41,7 @@ class NewsViewWrapper extends BaseViewWrapper<NewsState> {
     }
   }
 
-  /// Детали новости по [id] (кэш после [showAll] или избранное).
+  /// Shows news details by [id] from cache after [showAll] or favorites.
   Future<void> showDetails(String id) async {
     emit(const SingleNewsState(isLoading: true));
     try {

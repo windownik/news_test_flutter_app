@@ -19,7 +19,7 @@ class Source {
       };
 }
 
-/// DTO для ответа NewsAPI и сериализации в Hive.
+/// DTO for the NewsAPI response and Hive serialization.
 class NewsObject {
   NewsObject({
     this.source,
@@ -79,7 +79,7 @@ class NewsObject {
   final DateTime? publishedAt;
   final String? content;
 
-  /// Стабильный ключ для кэша и Hive (NewsAPI не отдаёт отдельный id статьи).
+  /// Stable key for cache and Hive because NewsAPI does not provide a separate article ID.
   String get id => url.isNotEmpty ? url : 'news_${title.hashCode}_${publishedAt?.millisecondsSinceEpoch ?? 0}';
 
   Map<String, dynamic> toJson() => {

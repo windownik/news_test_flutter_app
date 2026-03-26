@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import '../../../core/errors/app_exceptions.dart';
 import '../../models/news_object.dart';
 
-/// Удалённое получение новостей через NewsAPI.
+/// Fetches news remotely via NewsAPI.
 class NewsRemoteDataSource {
   NewsRemoteDataSource(this._dio, {String? apiKey})
     : _apiKey =
@@ -13,7 +13,7 @@ class NewsRemoteDataSource {
   final Dio _dio;
   final String _apiKey;
 
-  /// GET top-headlines → список [NewsObject] из поля `articles`.
+  /// Calls `top-headlines` and maps the `articles` field to [NewsObject].
   Future<List<NewsObject>> fetchNews({
     String category = 'general',
     String? query,

@@ -1,4 +1,4 @@
-/// Базовая ошибка приложения.
+/// Base application error.
 class AppException implements Exception {
   const AppException(this.message, [this.cause]);
 
@@ -9,7 +9,7 @@ class AppException implements Exception {
   String toString() => 'AppException: $message';
 }
 
-/// Ошибка сети или транспорта.
+/// Network or transport error.
 class NetworkException extends AppException {
   const NetworkException(super.message, [super.cause]);
 }

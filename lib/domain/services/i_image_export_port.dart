@@ -1,4 +1,4 @@
-/// Абстракция для сохранения и шеринга изображения по URL (инверсия зависимостей).
+/// Abstraction for saving and sharing an image by URL (dependency inversion).
 abstract class IImageExportPort {
   Future<void> shareImageFromUrl(String imageUrl);
 

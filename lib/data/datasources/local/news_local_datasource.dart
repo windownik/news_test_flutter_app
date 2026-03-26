@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/news_object.dart';
 
-/// Локальное NoSQL-хранилище избранных новостей (Hive).
+/// Local NoSQL storage for favorite news (Hive).
 class NewsLocalDataSource {
   NewsLocalDataSource(this._box);
 

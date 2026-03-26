@@ -1,4 +1,4 @@
-/// Доменная сущность новости (NewsAPI + избранное).
+/// Domain entity for a news item (NewsAPI + favorites).
 class NewsEntity {
   const NewsEntity({
     required this.id,

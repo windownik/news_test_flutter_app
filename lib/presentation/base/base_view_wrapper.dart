@@ -1,6 +1,6 @@
 import 'dart:async';
 
-/// Базовый ViewWrapper: один [StreamController.broadcast] и текущее состояние.
+/// Base view wrapper with one [StreamController.broadcast] and the current state.
 abstract class BaseViewWrapper<T> {
   BaseViewWrapper(T initialState)
       : _currentState = initialState,
@@ -15,7 +15,7 @@ abstract class BaseViewWrapper<T> {
 
   Stream<T> get stream => _controller.stream;
 
-  /// Обновить состояние и уведомить подписчиков [stream].
+  /// Updates the state and notifies [stream] subscribers.
   void emit(T state) {
     _currentState = state;
     if (!_controller.isClosed) {

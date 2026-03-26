@@ -2,7 +2,7 @@ import '../../../domain/services/i_image_export_port.dart';
 import '../../base/base_view_wrapper.dart';
 import 'open_image_state.dart';
 
-/// Логика сохранения и шеринга картинки новости (зависит от [IImageExportPort]).
+/// Handles saving and sharing a news image via [IImageExportPort].
 class OpenImageViewWrapper extends BaseViewWrapper<OpenImageState> {
   OpenImageViewWrapper(this._imageExport) : super(const OpenImageIdle());
 

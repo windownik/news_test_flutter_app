@@ -1,4 +1,4 @@
-/// Состояния операций сохранения / шеринга изображения.
+/// States for image save and share operations.
 sealed class OpenImageState {
   const OpenImageState();
 }

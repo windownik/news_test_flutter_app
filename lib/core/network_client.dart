@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-/// Обёртка над [Dio] с единой точкой настройки (NewsAPI v2).
+/// Wrapper around [Dio] with a single configuration entry point (NewsAPI v2).
 class NetworkClient {
   NetworkClient({Dio? dio, String? baseUrl})
       : _dio = dio ??
