@@ -41,6 +41,8 @@ dependencies:
   share_plus: ^10.1.4
   gal: ^2.3.0
   flutter_dotenv: ^6.0.0
+  cached_network_image: ^3.4.1
+  flutter_svg: ^2.2.4
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +69,7 @@ flutter:
 
   assets:
     - .env
+    - assets/icons/svg/
 
   fonts:
     - family: Satoshi

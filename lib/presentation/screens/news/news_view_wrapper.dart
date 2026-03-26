@@ -5,18 +5,25 @@ import 'news_state.dart';
 
 /// Управляет потоком [NewsState] и загрузкой из сети / локального хранилища.
 class NewsViewWrapper extends BaseViewWrapper<NewsState> {
-  NewsViewWrapper(this._repository) : super(const AllNewsState(isLoading: true));
+  NewsViewWrapper(this._repository)
+    : super(const AllNewsState(isLoading: true));
 
   final INewsRepository _repository;
   String _selectedCategory = 'general';
+  String _searchQuery = '';
 
   /// Загрузить все новости из сети и показать список.
-  Future<void> showAll({String? category}) async {
+  Future<void> showAll({String? category, String? query}) async {
     final resolvedCategory = category ?? _selectedCategory;
+    final resolvedQuery = query ?? _searchQuery;
     _selectedCategory = resolvedCategory;
+    _searchQuery = resolvedQuery;
     emit(const AllNewsState(isLoading: true));
     try {
-      final items = await _repository.fetchNews(category: resolvedCategory);
+      final items = await _repository.fetchNews(
+        category: resolvedCategory,
+        query: resolvedQuery,
+      );
       emit(AllNewsState(items: items));
     } catch (e, st) {
       emit(AllNewsState(error: '$e\n$st'));

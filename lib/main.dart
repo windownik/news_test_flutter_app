@@ -55,8 +55,8 @@ class NewsApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizations.supportedLocales,
-      theme: AppTheme.lightTheme,
       home: NewsScreen(
         newsRepository: newsRepository,
         imageExport: imageExport,

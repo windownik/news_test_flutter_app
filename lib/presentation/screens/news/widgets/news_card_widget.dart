@@ -1,6 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/common/app_colors.dart';
+import 'package:news_flutter_app/common/app_text_styles.dart';
 
 import '../../../../domain/entities/news_entity.dart';
+import 'date_text_widget.dart';
+import 'favorite_icon_button.dart';
 
 const borderRadiusValue = 16.0;
 
@@ -10,10 +15,16 @@ class NewsCardWidget extends StatelessWidget {
     required this.news,
     required this.onTap,
     this.onImageTap,
+    this.onTapFavorite,
+    this.onToggleFavorite,
+    this.favoriteResolver,
   });
 
   final NewsEntity news;
   final VoidCallback onTap;
+  final VoidCallback? onTapFavorite;
+  final Future<void> Function(NewsEntity n)? onToggleFavorite;
+  final Future<bool> Function(String id)? favoriteResolver;
   final VoidCallback? onImageTap;
 
   @override
@@ -31,7 +42,7 @@ class NewsCardWidget extends StatelessWidget {
               Container(
                 height: 112,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.surface,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(borderRadiusValue),
                   boxShadow: [
                     BoxShadow(
@@ -53,36 +64,37 @@ class NewsCardWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              news.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.w700,
-                                height: 1.05,
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    news.title,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyles.titleInCard,
+                                  ),
+                                ),
+                                if (onToggleFavorite != null)
+                                  FavoriteIconButton(
+                                    news: news,
+                                    onToggle: () => onToggleFavorite!(news),
+                                    favoriteResolver: favoriteResolver!,
+                                    width: 33,
+                                    height: 32,
+                                  ),
+                              ],
                             ),
                             const SizedBox(height: 8),
                             Text(
                               _subtitle(news),
-                              maxLines: 1,
+                              maxLines: 2,
                               overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                color: theme.colorScheme.onSurface.withValues(
-                                  alpha: 0.78,
-                                ),
-                              ),
+                              style: AppTextStyles.dateTimeBig,
                             ),
                             const Spacer(),
                             Align(
                               alignment: Alignment.bottomRight,
-                              child: Text(
-                                _formatDate(news.publishedAt),
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              child: DateTextWidget(dateTime: news.publishedAt),
                             ),
                           ],
                         ),
@@ -122,15 +134,6 @@ class NewsCardWidget extends StatelessWidget {
     if (parts.isEmpty) return '';
     return parts.first;
   }
-
-  String _formatDate(DateTime? date) {
-    if (date == null) return '--.--.----';
-
-    final month = date.month.toString().padLeft(2, '0');
-    final day = date.day.toString().padLeft(2, '0');
-    final year = date.year.toString().padLeft(4, '0');
-    return '$month.$day.$year';
-  }
 }
 
 class _NewsCardImage extends StatelessWidget {
@@ -141,6 +144,7 @@ class _NewsCardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final borderRadius = BorderRadius.horizontal(
       left: Radius.circular(borderRadiusValue),
     );
@@ -148,22 +152,24 @@ class _NewsCardImage extends StatelessWidget {
         ? Container(
             width: 123,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              color: AppColors.white,
               borderRadius: borderRadius,
             ),
             child: const Icon(Icons.image_outlined, size: 40),
           )
-        : Image.network(
-            imageUrl!,
+        : CachedNetworkImage(
+            imageUrl: imageUrl!,
             width: 123,
             height: double.infinity,
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
+            placeholder: (_, __) => Container(
               width: 123,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: borderRadius,
-              ),
+              color: theme.colorScheme.surfaceContainerHighest,
+              child: const Center(child: CircularProgressIndicator()),
+            ),
+            errorWidget: (_, __, ___) => Container(
+              width: 123,
+              color: AppColors.white,
               child: const Icon(Icons.broken_image_outlined, size: 40),
             ),
           );

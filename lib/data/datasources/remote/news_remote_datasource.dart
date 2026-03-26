@@ -14,13 +14,19 @@ class NewsRemoteDataSource {
   final String _apiKey;
 
   /// GET top-headlines → список [NewsObject] из поля `articles`.
-  Future<List<NewsObject>> fetchNews({String category = 'general'}) async {
+  Future<List<NewsObject>> fetchNews({
+    String category = 'general',
+    String? query,
+  }) async {
     try {
+      final resolvedQuery = query?.trim();
       final response = await _dio.get<Map<String, dynamic>>(
         '/top-headlines',
         queryParameters: <String, dynamic>{
           'country': 'us',
           'category': category,
+          if (resolvedQuery != null && resolvedQuery.isNotEmpty)
+            'q': resolvedQuery,
           'apiKey': _apiKey,
         },
       );

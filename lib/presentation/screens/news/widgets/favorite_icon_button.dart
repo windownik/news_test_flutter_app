@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/presentation/screens/news/widgets/svg_button.dart';
 
+import '../../../../common/app_icons.dart';
 import '../../../../domain/entities/news_entity.dart';
 
 class FavoriteIconButton extends StatefulWidget {
@@ -8,8 +10,12 @@ class FavoriteIconButton extends StatefulWidget {
     required this.news,
     required this.onToggle,
     required this.favoriteResolver,
+    this.width,
+    this.height,
   });
 
+  final double? width;
+  final double? height;
   final NewsEntity news;
   final Future<void> Function() onToggle;
   final Future<bool> Function(String id) favoriteResolver;
@@ -43,9 +49,11 @@ class _FavoriteIconButtonState extends State<FavoriteIconButton> {
   @override
   Widget build(BuildContext context) {
     final fav = _fav ?? false;
-    return IconButton(
-      icon: Icon(fav ? Icons.star : Icons.star_border),
-      onPressed: () async {
+    return SvgButton(
+      asset: fav ? IconsAssets.favoritesOutlined : IconsAssets.favorites,
+      btnHeight: widget.height,
+      btnWidth: widget.width,
+      onTap: () async {
         await widget.onToggle();
         if (mounted) await _load();
       },

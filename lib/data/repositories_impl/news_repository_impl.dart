@@ -8,19 +8,27 @@ class NewsRepositoryImpl implements INewsRepository {
   NewsRepositoryImpl({
     required NewsRemoteDataSource remote,
     required NewsLocalDataSource local,
-  })  : _remote = remote,
-        _local = local;
+  }) : _remote = remote,
+       _local = local;
 
   final NewsRemoteDataSource _remote;
   final NewsLocalDataSource _local;
 
   List<NewsEntity>? _cachedRemote;
   String _currentCategory = 'general';
+  String _currentQuery = '';
 
   @override
-  Future<List<NewsEntity>> fetchNews({String category = 'general'}) async {
+  Future<List<NewsEntity>> fetchNews({
+    String category = 'general',
+    String? query,
+  }) async {
     _currentCategory = category;
-    final models = await _remote.fetchNews(category: category);
+    _currentQuery = query?.trim() ?? '';
+    final models = await _remote.fetchNews(
+      category: category,
+      query: _currentQuery,
+    );
     _cachedRemote = models.map((m) => m.toEntity()).toList();
     return _cachedRemote!;
   }
@@ -40,7 +48,7 @@ class NewsRepositoryImpl implements INewsRepository {
         if (e.id == id) return e;
       }
     }
-    await fetchNews(category: _currentCategory);
+    await fetchNews(category: _currentCategory, query: _currentQuery);
     for (final e in _cachedRemote ?? <NewsEntity>[]) {
       if (e.id == id) return e;
     }

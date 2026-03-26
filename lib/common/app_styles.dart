@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 abstract final class AppStyles {
-  static const double cardRadius = 24;
-  static const double chipRadius = 22;
-  static const double imageWidth = 126;
+  static const double cardRadius = 16;
+  static const double categoryButtonRadius = 22;
+  static const double imageWidth = 123;
 
   static const EdgeInsets screenPadding = EdgeInsets.all(16);
   static const EdgeInsets cardPadding = EdgeInsets.fromLTRB(20, 18, 20, 16);
@@ -22,10 +22,6 @@ abstract final class AppStyles {
   );
 
   static const List<BoxShadow> cardShadows = [
-    BoxShadow(
-      color: AppColors.shadow,
-      blurRadius: 12,
-      offset: Offset(0, 4),
-    ),
+    BoxShadow(color: AppColors.shadow, blurRadius: 6.1, offset: Offset(0, 3)),
   ];
 }

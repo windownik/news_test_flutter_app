@@ -3,47 +3,55 @@ import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
 abstract final class AppTextStyles {
-  static const TextStyle appBarTitle = TextStyle(
-    fontFamily: 'Satoshi',
-    fontSize: 20,
-    fontWeight: FontWeight.w600,
-    color: AppColors.textPrimary,
-  );
-
   static const TextStyle titleLarge = TextStyle(
     fontFamily: 'Satoshi',
-    fontSize: 18,
+    fontSize: 33,
     fontWeight: FontWeight.w700,
-    color: AppColors.textPrimary,
-    height: 1.1,
+    color: AppColors.black,
+    height: 1,
   );
 
-  static const TextStyle titleMedium = TextStyle(
+  static const TextStyle titleInCard = TextStyle(
     fontFamily: 'Satoshi',
-    fontSize: 16,
-    fontWeight: FontWeight.w500,
-    color: AppColors.textPrimary,
+    fontSize: 24,
+    fontWeight: FontWeight.w700,
+    color: AppColors.black,
   );
 
-  static const TextStyle body = TextStyle(
+  static const TextStyle subtitleTextInCard = TextStyle(
     fontFamily: 'Satoshi',
-    fontSize: 14,
+    fontSize: 27,
     fontWeight: FontWeight.w400,
-    color: AppColors.textPrimary,
-    height: 1.4,
+    color: AppColors.black,
   );
 
-  static const TextStyle caption = TextStyle(
+  static const TextStyle textInCard = TextStyle(
     fontFamily: 'Satoshi',
-    fontSize: 13,
+    fontSize: 24,
     fontWeight: FontWeight.w400,
-    color: AppColors.textSecondary,
+    color: AppColors.black,
   );
 
-  static const TextStyle button = TextStyle(
+  static const TextStyle dateTimeBig = TextStyle(
     fontFamily: 'Satoshi',
-    fontSize: 15,
-    fontWeight: FontWeight.w600,
+    fontSize: 19,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+    height: 1,
+  );
+
+  static const TextStyle dateTimeSmall = TextStyle(
+    fontFamily: 'Satoshi',
+    fontSize: 17,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+    height: 1,
+  );
+
+  static const TextStyle buttonWhite = TextStyle(
+    fontFamily: 'Satoshi',
+    fontSize: 17,
+    fontWeight: FontWeight.w400,
     color: AppColors.white,
   );
 }

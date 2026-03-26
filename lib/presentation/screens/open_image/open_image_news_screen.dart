@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/services/i_image_export_port.dart';
 import 'open_image_state.dart';
 import 'open_image_view_wrapper.dart';
 
-/// Полноэкранный просмотр изображения новости с действиями через [OpenImageViewWrapper].
 class OpenImageNewsScreen extends StatefulWidget {
   const OpenImageNewsScreen({
     super.key,
@@ -32,9 +32,9 @@ class _OpenImageNewsScreenState extends State<OpenImageNewsScreen> {
     _sub = _wrapper.stream.listen((state) {
       if (state is OpenImageMessage) {
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(state.text)),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(state.text)));
         Future<void>.delayed(const Duration(milliseconds: 50), () {
           if (mounted) _wrapper.resetMessage();
         });
@@ -93,17 +93,20 @@ class _OpenImageNewsScreenState extends State<OpenImageNewsScreen> {
             minScale: 0.5,
             maxScale: 4,
             child: Center(
-              child: Image.network(
-                widget.imageUrl,
+              child: CachedNetworkImage(
+                imageUrl: widget.imageUrl,
                 fit: BoxFit.contain,
-                loadingBuilder: (context, child, progress) {
-                  if (progress == null) return child;
+                progressIndicatorBuilder: (_, __, ___) {
                   return const Center(
                     child: CircularProgressIndicator(color: Colors.white),
                   );
                 },
-                errorBuilder: (context, error, stack) => const Center(
-                  child: Icon(Icons.broken_image, color: Colors.white54, size: 64),
+                errorWidget: (_, __, ___) => const Center(
+                  child: Icon(
+                    Icons.broken_image,
+                    color: Colors.white54,
+                    size: 64,
+                  ),
                 ),
               ),
             ),

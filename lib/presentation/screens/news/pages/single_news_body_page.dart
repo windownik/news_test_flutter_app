@@ -1,12 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/common/app_text_styles.dart';
+import 'package:news_flutter_app/presentation/screens/news/widgets/svg_button.dart';
 
+import '../../../../common/app_icons.dart';
 import '../../../../domain/entities/news_entity.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../news_state.dart';
+import '../widgets/date_text_widget.dart';
 import '../widgets/favorite_icon_button.dart';
 
 class SingleNewsPage extends StatelessWidget {
   const SingleNewsPage({
+    super.key,
     required this.state,
     required this.onBack,
     required this.onToggleFavorite,
@@ -38,8 +44,8 @@ class SingleNewsPage extends StatelessWidget {
         ),
       );
     }
-    final n = state.news;
-    if (n == null) {
+    final news = state.news;
+    if (news == null) {
       return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -52,43 +58,64 @@ class SingleNewsPage extends StatelessWidget {
       );
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: [
-              IconButton(icon: const Icon(Icons.arrow_back), onPressed: onBack),
-              Expanded(
-                child: Text(
-                  n.title,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              FavoriteIconButton(
-                news: n,
-                onToggle: () => onToggleFavorite(n),
-                favoriteResolver: favoriteResolver,
-              ),
-            ],
-          ),
+        Row(
+          children: [
+            const SizedBox(width: 16),
+            SvgButton(asset: IconsAssets.back, onTap: onBack),
+            const Spacer(),
+            FavoriteIconButton(
+              news: news,
+              onToggle: () => onToggleFavorite(news),
+              favoriteResolver: favoriteResolver,
+            ),
+            const SizedBox(width: 16),
+          ],
         ),
-        if (n.urlToImage != null)
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: InkWell(
-              onTap: () => onOpenImage(n.urlToImage!),
-              child: Image.network(
-                n.urlToImage!,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) =>
-                    const Icon(Icons.broken_image, size: 64),
-              ),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(news.title, style: AppTextStyles.titleLarge),
+                if (news.description != null)
+                  Text(
+                    news.description!,
+                    style: AppTextStyles.subtitleTextInCard,
+                  ),
+                const SizedBox(height: 24),
+
+                Row(
+                  children: [
+                    if (news.sourceName != null)
+                      Text(news.sourceName!, style: AppTextStyles.dateTimeBig),
+                    const Spacer(),
+                    DateTextWidget(
+                      dateTime: news.publishedAt,
+                      style: AppTextStyles.dateTimeBig,
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 10),
+                if (news.urlToImage != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(27),
+                    child: CachedNetworkImage(
+                      imageUrl: news.urlToImage!,
+                      fit: BoxFit.cover,
+                      placeholder: (_, __) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (_, __, ___) =>
+                          const Icon(Icons.broken_image, size: 64),
+                    ),
+                  ),
+                const SizedBox(height: 18),
+                Text(news.content ?? "", style: AppTextStyles.textInCard),
+              ],
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text(_detailText(n, l10n)),
         ),
       ],
     );

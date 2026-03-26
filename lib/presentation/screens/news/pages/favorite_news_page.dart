@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../../domain/entities/news_entity.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../news_state.dart';
-import '../widgets/favorite_icon_button.dart';
 import '../widgets/news_card_widget.dart';
 
 class FavoriteNewsPage extends StatelessWidget {
   const FavoriteNewsPage({
+    super.key,
     required this.state,
     required this.onTap,
     required this.onToggleFavorite,
@@ -33,19 +33,28 @@ class FavoriteNewsPage extends StatelessWidget {
     if (state.items.isEmpty) {
       return Center(child: Text(l10n.noFavoritesYet));
     }
-    return ListView.separated(
-      itemCount: state.items.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 4),
-      itemBuilder: (context, i) {
-        final n = state.items[i];
-        return NewsCardWidget(
-          news: n,
-          onTap: () => onTap(n.id),
-          onImageTap: n.urlToImage != null
-              ? () => onOpenImage(n.urlToImage!)
-              : null,
-        );
-      },
+    return Column(
+      children: [
+        const SizedBox(height: 60),
+        Expanded(
+          child: ListView.separated(
+            itemCount: state.items.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 16),
+            itemBuilder: (context, i) {
+              final n = state.items[i];
+              return NewsCardWidget(
+                news: n,
+                onTap: () => onTap(n.id),
+                favoriteResolver: favoriteResolver,
+                onToggleFavorite: onToggleFavorite,
+                onImageTap: n.urlToImage != null
+                    ? () => onOpenImage(n.urlToImage!)
+                    : null,
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/common/app_text_styles.dart';
 
 import '../../../../l10n/app_localizations.dart';
 
@@ -14,6 +15,7 @@ const List<_NewsCategory> _newsCategories = [
 
 class CategoryBar extends StatelessWidget {
   const CategoryBar({
+    super.key,
     required this.selectedCategory,
     required this.onCategorySelected,
   });
@@ -25,9 +27,9 @@ class CategoryBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return SizedBox(
-      height: 76,
+      height: 54,
       child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
         scrollDirection: Axis.horizontal,
         itemCount: _newsCategories.length,
         separatorBuilder: (_, __) => const SizedBox(width: 12),
@@ -63,23 +65,15 @@ class _CategoryButton extends StatelessWidget {
         : Color.fromRGBO(193, 193, 193, 1);
     return GestureDetector(
       onTap: onPressed,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: 132),
-        child: SizedBox(
-          height: 44,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Center(
-              child: Text(
-                label,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
+      child: Container(
+        width: 114,
+        height: 44,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(22),
         ),
+        alignment: Alignment.center,
+        child: Text(label, style: AppTextStyles.buttonWhite),
       ),
     );
   }
