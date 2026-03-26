@@ -1,21 +1,41 @@
 import 'package:dio/dio.dart';
 
 import '../../../core/errors/app_exceptions.dart';
-import '../../models/news_model.dart';
+import '../../models/news_object.dart';
 
-/// Удалённое получение новостей через [Dio].
+/// Удалённое получение новостей через NewsAPI.
 class NewsRemoteDataSource {
-  NewsRemoteDataSource(this._dio);
+  NewsRemoteDataSource(this._dio, {String? apiKey})
+    : _apiKey =
+          apiKey ??
+          const String.fromEnvironment('NEWS_API_KEY', defaultValue: 'key');
 
   final Dio _dio;
+  final String _apiKey;
 
-  Future<List<NewsModel>> fetchNews() async {
+  /// GET top-headlines → список [NewsObject] из поля `articles`.
+  Future<List<NewsObject>> fetchNews({String category = 'general'}) async {
     try {
-      final response = await _dio.get<List<dynamic>>('/photos?_limit=30');
-      final raw = response.data ?? <dynamic>[];
-      return raw
+      final response = await _dio.get<Map<String, dynamic>>(
+        '/top-headlines',
+        queryParameters: <String, dynamic>{
+          'country': 'us',
+          'category': category,
+          'apiKey': _apiKey,
+        },
+      );
+      final body = response.data;
+      if (body == null) {
+        throw const NetworkException('Empty response');
+      }
+      if (body['status'] == 'error') {
+        final msg = body['message'] as String? ?? 'NewsAPI error';
+        throw NetworkException(msg);
+      }
+      final articlesJson = body['articles'] as List<dynamic>? ?? <dynamic>[];
+      return articlesJson
           .map(
-            (e) => NewsModel.fromJson(
+            (dynamic e) => NewsObject.fromJson(
               Map<String, dynamic>.from(e as Map<dynamic, dynamic>),
             ),
           )

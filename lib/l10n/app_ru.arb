@@ -1,0 +1,27 @@
+{
+  "@@locale": "ru",
+  "appTitle": "Новости",
+  "allNewsTooltip": "Все новости",
+  "favoritesTooltip": "Избранное",
+  "allTabLabel": "Все",
+  "favoritesTabLabel": "Избранное",
+  "noNews": "Нет новостей",
+  "noFavoritesYet": "Пока нет избранных новостей",
+  "backButton": "Назад",
+  "newsNotFound": "Новость не найдена",
+  "categoryBusiness": "Бизнес",
+  "categoryEntertainment": "Развлечения",
+  "categoryGeneral": "Общее",
+  "categoryHealth": "Здоровье",
+  "categoryScience": "Наука",
+  "categorySports": "Спорт",
+  "categoryTechnology": "Технологии",
+  "newsAuthor": "Автор: {author}",
+  "@newsAuthor": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  }
+}

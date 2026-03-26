@@ -1,0 +1,27 @@
+{
+  "@@locale": "en",
+  "appTitle": "News",
+  "allNewsTooltip": "All news",
+  "favoritesTooltip": "Favorites",
+  "allTabLabel": "All",
+  "favoritesTabLabel": "Favorites",
+  "noNews": "No news",
+  "noFavoritesYet": "No favorites yet",
+  "backButton": "Back",
+  "newsNotFound": "News not found",
+  "categoryBusiness": "Business",
+  "categoryEntertainment": "Entertainment",
+  "categoryGeneral": "General",
+  "categoryHealth": "Health",
+  "categoryScience": "Science",
+  "categorySports": "Sports",
+  "categoryTechnology": "Technology",
+  "newsAuthor": "Author: {author}",
+  "@newsAuthor": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      }
+    }
+  }
+}

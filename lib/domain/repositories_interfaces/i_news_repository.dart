@@ -3,7 +3,7 @@ import '../entities/news_entity.dart';
 /// Контракт репозитория новостей (сеть + локальное избранное).
 abstract class INewsRepository {
   /// Загрузка списка новостей с удалённого API.
-  Future<List<NewsEntity>> fetchNews();
+  Future<List<NewsEntity>> fetchNews({String category = 'general'});
 
   /// Избранные новости из локального хранилища.
   Future<List<NewsEntity>> getFavoriteNews();

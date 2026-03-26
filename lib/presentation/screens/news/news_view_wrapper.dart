@@ -8,12 +8,15 @@ class NewsViewWrapper extends BaseViewWrapper<NewsState> {
   NewsViewWrapper(this._repository) : super(const AllNewsState(isLoading: true));
 
   final INewsRepository _repository;
+  String _selectedCategory = 'general';
 
   /// Загрузить все новости из сети и показать список.
-  Future<void> showAll() async {
+  Future<void> showAll({String? category}) async {
+    final resolvedCategory = category ?? _selectedCategory;
+    _selectedCategory = resolvedCategory;
     emit(const AllNewsState(isLoading: true));
     try {
-      final items = await _repository.fetchNews();
+      final items = await _repository.fetchNews(category: resolvedCategory);
       emit(AllNewsState(items: items));
     } catch (e, st) {
       emit(AllNewsState(error: '$e\n$st'));

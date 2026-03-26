@@ -2,7 +2,7 @@ import '../../domain/entities/news_entity.dart';
 import '../../domain/repositories_interfaces/i_news_repository.dart';
 import '../datasources/local/news_local_datasource.dart';
 import '../datasources/remote/news_remote_datasource.dart';
-import '../models/news_model.dart';
+import '../models/news_object.dart';
 
 class NewsRepositoryImpl implements INewsRepository {
   NewsRepositoryImpl({
@@ -15,10 +15,12 @@ class NewsRepositoryImpl implements INewsRepository {
   final NewsLocalDataSource _local;
 
   List<NewsEntity>? _cachedRemote;
+  String _currentCategory = 'general';
 
   @override
-  Future<List<NewsEntity>> fetchNews() async {
-    final models = await _remote.fetchNews();
+  Future<List<NewsEntity>> fetchNews({String category = 'general'}) async {
+    _currentCategory = category;
+    final models = await _remote.fetchNews(category: category);
     _cachedRemote = models.map((m) => m.toEntity()).toList();
     return _cachedRemote!;
   }
@@ -38,7 +40,7 @@ class NewsRepositoryImpl implements INewsRepository {
         if (e.id == id) return e;
       }
     }
-    await fetchNews();
+    await fetchNews(category: _currentCategory);
     for (final e in _cachedRemote ?? <NewsEntity>[]) {
       if (e.id == id) return e;
     }
@@ -47,7 +49,7 @@ class NewsRepositoryImpl implements INewsRepository {
 
   @override
   Future<void> addToFavorites(NewsEntity news) async {
-    await _local.saveFavorite(NewsModel.fromEntity(news));
+    await _local.saveFavorite(NewsObject.fromEntity(news));
   }
 
   @override

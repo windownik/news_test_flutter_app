@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../models/news_model.dart';
+import '../../models/news_object.dart';
 
 /// Локальное NoSQL-хранилище избранных новостей (Hive).
 class NewsLocalDataSource {
@@ -12,13 +12,13 @@ class NewsLocalDataSource {
 
   final Box<String> _box;
 
-  Future<List<NewsModel>> getFavorites() async {
+  Future<List<NewsObject>> getFavorites() async {
     return _box.values
-        .map((s) => NewsModel.fromJson(jsonDecode(s) as Map<String, dynamic>))
+        .map((s) => NewsObject.fromJson(jsonDecode(s) as Map<String, dynamic>))
         .toList();
   }
 
-  Future<void> saveFavorite(NewsModel model) async {
+  Future<void> saveFavorite(NewsObject model) async {
     await _box.put(model.id, jsonEncode(model.toJson()));
   }
 
@@ -26,10 +26,10 @@ class NewsLocalDataSource {
     await _box.delete(id);
   }
 
-  Future<NewsModel?> getById(String id) async {
+  Future<NewsObject?> getById(String id) async {
     final raw = _box.get(id);
     if (raw == null) return null;
-    return NewsModel.fromJson(jsonDecode(raw) as Map<String, dynamic>);
+    return NewsObject.fromJson(jsonDecode(raw) as Map<String, dynamic>);
   }
 
   Future<bool> isFavorite(String id) async => _box.containsKey(id);
