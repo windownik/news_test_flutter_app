@@ -86,7 +86,7 @@ class NewsCardWidget extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              _subtitle(news),
+                              news.description ?? "",
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.dateTimeBig,
