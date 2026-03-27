@@ -16,14 +16,12 @@ class SingleNewsPage extends StatelessWidget {
     required this.state,
     required this.onBack,
     required this.onToggleFavorite,
-    required this.onOpenImage,
     required this.favoriteResolver,
   });
 
   final SingleNewsState state;
   final Future<void> Function() onBack;
   final Future<void> Function(NewsEntity n) onToggleFavorite;
-  final void Function(String url) onOpenImage;
   final Future<bool> Function(String id) favoriteResolver;
 
   @override
@@ -120,21 +118,4 @@ class SingleNewsPage extends StatelessWidget {
       ],
     );
   }
-}
-
-String _detailText(NewsEntity n, AppLocalizations l10n) {
-  final parts = <String>[];
-  if (n.author != null && n.author!.isNotEmpty) {
-    parts.add(l10n.newsAuthor(n.author!));
-  }
-  if (n.sourceName != null && n.sourceName!.isNotEmpty) {
-    parts.add(n.sourceName!);
-  }
-  if (n.description != null && n.description!.isNotEmpty) {
-    parts.add(n.description!);
-  }
-  if (n.content != null && n.content!.isNotEmpty) {
-    parts.add(n.content!);
-  }
-  return parts.join('\n\n');
 }

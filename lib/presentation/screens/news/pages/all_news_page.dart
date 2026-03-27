@@ -17,7 +17,6 @@ class AllNewsPage extends StatelessWidget {
     required this.onSearch,
     required this.onTap,
     required this.onToggleFavorite,
-    required this.onOpenImage,
     required this.favoriteResolver,
   });
 
@@ -28,7 +27,6 @@ class AllNewsPage extends StatelessWidget {
   final Future<void> Function(String query) onSearch;
   final Future<void> Function(String id) onTap;
   final Future<void> Function(NewsEntity n) onToggleFavorite;
-  final void Function(String url) onOpenImage;
   final Future<bool> Function(String id) favoriteResolver;
 
   @override
@@ -48,13 +46,7 @@ class AllNewsPage extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 16),
         itemBuilder: (context, i) {
           final n = state.items[i];
-          return NewsCardWidget(
-            news: n,
-            onTap: () => onTap(n.id),
-            onImageTap: n.urlToImage != null
-                ? () => onOpenImage(n.urlToImage!)
-                : null,
-          );
+          return NewsCardWidget(news: n, onTap: () => onTap(n.id));
         },
       );
     }

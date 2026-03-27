@@ -14,7 +14,6 @@ class NewsCardWidget extends StatelessWidget {
     super.key,
     required this.news,
     required this.onTap,
-    this.onImageTap,
     this.onTapFavorite,
     this.onToggleFavorite,
     this.favoriteResolver,
@@ -25,12 +24,9 @@ class NewsCardWidget extends StatelessWidget {
   final VoidCallback? onTapFavorite;
   final Future<void> Function(NewsEntity n)? onToggleFavorite;
   final Future<bool> Function(String id)? favoriteResolver;
-  final VoidCallback? onImageTap;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 19),
       child: GestureDetector(
@@ -54,10 +50,7 @@ class NewsCardWidget extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    _NewsCardImage(
-                      imageUrl: news.urlToImage,
-                      onTap: onImageTap,
-                    ),
+                    _NewsCardImage(imageUrl: news.urlToImage),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(12, 5, 11, 6),
@@ -120,27 +113,12 @@ class NewsCardWidget extends StatelessWidget {
       ),
     );
   }
-
-  String _subtitle(NewsEntity news) {
-    final parts = <String>[
-      if (news.description != null && news.description!.trim().isNotEmpty)
-        news.description!.trim(),
-      if (news.sourceName != null && news.sourceName!.trim().isNotEmpty)
-        news.sourceName!.trim(),
-      if (news.author != null && news.author!.trim().isNotEmpty)
-        news.author!.trim(),
-    ];
-
-    if (parts.isEmpty) return '';
-    return parts.first;
-  }
 }
 
 class _NewsCardImage extends StatelessWidget {
-  const _NewsCardImage({required this.imageUrl, required this.onTap});
+  const _NewsCardImage({required this.imageUrl});
 
   final String? imageUrl;
-  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -176,17 +154,7 @@ class _NewsCardImage extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: borderRadius,
-      child: SizedBox(
-        width: 123,
-        height: double.infinity,
-        child: onTap == null
-            ? child
-            : GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: onTap,
-                child: child,
-              ),
-      ),
+      child: SizedBox(width: 123, height: double.infinity, child: child),
     );
   }
 }

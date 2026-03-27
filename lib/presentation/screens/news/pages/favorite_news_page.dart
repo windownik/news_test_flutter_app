@@ -11,14 +11,12 @@ class FavoriteNewsPage extends StatelessWidget {
     required this.state,
     required this.onTap,
     required this.onToggleFavorite,
-    required this.onOpenImage,
     required this.favoriteResolver,
   });
 
   final FavoriteNewsState state;
   final Future<void> Function(String id) onTap;
   final Future<void> Function(NewsEntity n) onToggleFavorite;
-  final void Function(String url) onOpenImage;
   final Future<bool> Function(String id) favoriteResolver;
 
   @override
@@ -47,9 +45,6 @@ class FavoriteNewsPage extends StatelessWidget {
                 onTap: () => onTap(n.id),
                 favoriteResolver: favoriteResolver,
                 onToggleFavorite: onToggleFavorite,
-                onImageTap: n.urlToImage != null
-                    ? () => onOpenImage(n.urlToImage!)
-                    : null,
               );
             },
           ),

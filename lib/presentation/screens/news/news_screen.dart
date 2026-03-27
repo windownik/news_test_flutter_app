@@ -6,7 +6,6 @@ import 'package:news_flutter_app/presentation/screens/news/pages/single_news_bod
 import 'package:news_flutter_app/presentation/screens/news/widgets/bottom_navigation_bar.dart';
 import '../../../domain/repositories_interfaces/i_news_repository.dart';
 import '../../../domain/services/i_image_export_port.dart';
-import '../open_image/open_image_news_screen.dart';
 import 'news_state.dart';
 import 'news_view_wrapper.dart';
 
@@ -77,15 +76,6 @@ class _NewsScreenState extends State<NewsScreen> {
     await _wrapper.showAll(category: _selectedCategory, query: resolvedQuery);
   }
 
-  void _openImage(String url) {
-    Navigator.of(context).push<void>(
-      MaterialPageRoute<void>(
-        builder: (context) =>
-            OpenImageNewsScreen(imageUrl: url, imageExport: widget.imageExport),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -108,21 +98,18 @@ class _NewsScreenState extends State<NewsScreen> {
                       onSearch: _onSearchChanged,
                       onTap: (id) => _wrapper.showDetails(id),
                       onToggleFavorite: (n) => _wrapper.toggleFavorite(n),
-                      onOpenImage: _openImage,
                       favoriteResolver: _wrapper.isFavorite,
                     ),
                     FavoriteNewsState s => FavoriteNewsPage(
                       state: s,
                       onTap: (id) => _wrapper.showDetails(id),
                       onToggleFavorite: (n) => _wrapper.toggleFavorite(n),
-                      onOpenImage: _openImage,
                       favoriteResolver: _wrapper.isFavorite,
                     ),
                     SingleNewsState s => SingleNewsPage(
                       state: s,
                       onBack: _onBack,
                       onToggleFavorite: (n) => _wrapper.toggleFavorite(n),
-                      onOpenImage: _openImage,
                       favoriteResolver: _wrapper.isFavorite,
                     ),
                   };
