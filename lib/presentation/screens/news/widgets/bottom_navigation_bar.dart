@@ -23,7 +23,7 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 84,
-      margin: EdgeInsets.symmetric(horizontal: 19),
+      margin: EdgeInsets.only(left: 19, right: 19, bottom: 20, top: 5),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: AppStyles.cardShadows,
