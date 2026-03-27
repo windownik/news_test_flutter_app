@@ -2,14 +2,14 @@ import 'dart:async';
 
 /// Base view wrapper with one [StreamController.broadcast] and the current state.
 abstract class BaseViewWrapper<T> {
-  BaseViewWrapper(T initialState)
-      : _currentState = initialState,
-        _controller = StreamController<T>.broadcast() {
+  BaseViewWrapper(T initialState) {
+    _currentState = initialState;
+    _controller = StreamController<T>.broadcast();
     _controller.add(initialState);
   }
 
-  final StreamController<T> _controller;
-  T _currentState;
+  late final StreamController<T> _controller;
+  late T _currentState;
 
   T get currentState => _currentState;
 
