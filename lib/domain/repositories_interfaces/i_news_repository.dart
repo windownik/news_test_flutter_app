@@ -4,7 +4,10 @@ abstract class INewsRepository {
   Future<List<NewsEntity>> fetchNews({
     String category = 'general',
     String? query,
+    bool loadMore = false,
   });
+
+  bool get hasMoreNews;
 
   /// Returns favorite news from local storage.
   Future<List<NewsEntity>> getFavoriteNews();

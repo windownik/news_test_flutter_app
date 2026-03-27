@@ -17,6 +17,8 @@ class NewsRemoteDataSource {
   Future<List<NewsObject>> fetchNews({
     String category = 'general',
     String? query,
+    int page = 1,
+    int pageSize = 20,
   }) async {
     try {
       final resolvedQuery = query?.trim();
@@ -27,6 +29,8 @@ class NewsRemoteDataSource {
           'category': category,
           if (resolvedQuery != null && resolvedQuery.isNotEmpty)
             'q': resolvedQuery,
+          'page': page,
+          'pageSize': pageSize,
           'apiKey': _apiKey,
         },
       );

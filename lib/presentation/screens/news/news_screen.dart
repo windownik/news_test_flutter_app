@@ -90,6 +90,7 @@ class _NewsScreenState extends State<NewsScreen> {
                       searchQuery: _searchQuery,
                       onCategorySelected: _onCategorySelected,
                       onSearch: _onSearchChanged,
+                      onLoadMore: _wrapper.loadMore,
                       onTap: (id) => _wrapper.showDetails(id),
                       onToggleFavorite: (n) => _wrapper.toggleFavorite(n),
                       favoriteResolver: _wrapper.isFavorite,

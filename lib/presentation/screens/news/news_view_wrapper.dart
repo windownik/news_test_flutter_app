@@ -24,9 +24,31 @@ class NewsViewWrapper extends BaseViewWrapper<NewsState> {
         category: resolvedCategory,
         query: resolvedQuery,
       );
-      emit(AllNewsState(items: items));
+      emit(AllNewsState(items: items, hasMore: _repository.hasMoreNews));
     } catch (e, st) {
       emit(AllNewsState(error: '$e\n$st'));
+    }
+  }
+
+  Future<void> loadMore() async {
+    final current = currentState;
+    if (current is! AllNewsState ||
+        current.isLoading ||
+        current.isLoadingMore ||
+        !current.hasMore) {
+      return;
+    }
+
+    emit(current.copyWith(isLoadingMore: true));
+    try {
+      final items = await _repository.fetchNews(
+        category: _selectedCategory,
+        query: _searchQuery,
+        loadMore: true,
+      );
+      emit(AllNewsState(items: items, hasMore: _repository.hasMoreNews));
+    } catch (_) {
+      emit(current);
     }
   }
 
@@ -63,7 +85,7 @@ class NewsViewWrapper extends BaseViewWrapper<NewsState> {
     if (current is FavoriteNewsState) {
       await showFavorites();
     } else if (current is AllNewsState) {
-      emit(AllNewsState(items: current.items));
+      emit(current.copyWith());
     } else if (current is SingleNewsState && current.news != null) {
       emit(SingleNewsState(news: current.news));
     }
