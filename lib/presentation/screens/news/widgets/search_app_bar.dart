@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_flutter_app/common/app_icons.dart';
+import 'package:news_flutter_app/presentation/screens/news/widgets/svg_button.dart';
 
 class SearchAppBar extends StatefulWidget {
   const SearchAppBar({
@@ -8,7 +10,7 @@ class SearchAppBar extends StatefulWidget {
   });
 
   final String initialQuery;
-  final Future<void> Function(String query) onSearch;
+  final ValueChanged<String> onSearch;
 
   @override
   State<SearchAppBar> createState() => _SearchAppBarState();
@@ -16,11 +18,13 @@ class SearchAppBar extends StatefulWidget {
 
 class _SearchAppBarState extends State<SearchAppBar> {
   late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialQuery);
+    _focusNode = FocusNode();
   }
 
   @override
@@ -36,10 +40,20 @@ class _SearchAppBarState extends State<SearchAppBar> {
   @override
   void dispose() {
     _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() => widget.onSearch(_controller.text.trim());
+  void _onSubmit() {
+    final searchResult = _controller.text.trim();
+    return widget.onSearch.call(searchResult);
+  }
+
+  void _onClear() async {
+    _controller.clear();
+    setState(() {});
+    widget.onSearch.call('');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,22 +63,22 @@ class _SearchAppBarState extends State<SearchAppBar> {
         decoration: BoxDecoration(color: Colors.white),
         child: TextField(
           controller: _controller,
+          focusNode: _focusNode,
           textInputAction: TextInputAction.search,
           onChanged: (_) => setState(() {}),
-          onSubmitted: (_) => _submit(),
+          onSubmitted: (_) => _onSubmit(),
           onTapOutside: (_) => FocusScope.of(context).unfocus(),
           decoration: InputDecoration(
             border: InputBorder.none,
             contentPadding: const EdgeInsets.symmetric(vertical: 18),
-            prefixIcon: const Icon(Icons.search, size: 34, color: Colors.grey),
+            prefixIcon: SvgButton(
+              asset: IconsAssets.search,
+              onTap: () => _focusNode.requestFocus(),
+            ),
             suffixIcon: _controller.text.isEmpty
                 ? null
                 : IconButton(
-                    onPressed: () async {
-                      _controller.clear();
-                      setState(() {});
-                      await widget.onSearch('');
-                    },
+                    onPressed: _onClear,
                     icon: const Icon(Icons.close),
                   ),
           ),

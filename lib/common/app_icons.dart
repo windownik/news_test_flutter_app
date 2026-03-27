@@ -8,6 +8,4 @@ abstract final class IconsAssets {
       'assets/icons/svg/favorite_outline_icon.svg';
   static const String back = 'assets/icons/svg/back_icon.svg';
   static const String search = 'assets/icons/svg/search_icon.svg';
-  // static const String image = Icons.image_outlined;
-  // static const String brokenImage = Icons.broken_image_outlined;
 }
