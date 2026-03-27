@@ -5,19 +5,13 @@ import 'package:news_flutter_app/presentation/screens/news/pages/favorite_news_p
 import 'package:news_flutter_app/presentation/screens/news/pages/single_news_body_page.dart';
 import 'package:news_flutter_app/presentation/screens/news/widgets/bottom_navigation_bar.dart';
 import '../../../domain/repositories_interfaces/i_news_repository.dart';
-import '../../../domain/services/i_image_export_port.dart';
 import 'news_state.dart';
 import 'news_view_wrapper.dart';
 
 class NewsScreen extends StatefulWidget {
-  const NewsScreen({
-    super.key,
-    required this.newsRepository,
-    required this.imageExport,
-  });
+  const NewsScreen({super.key, required this.newsRepository});
 
   final INewsRepository newsRepository;
-  final IImageExportPort imageExport;
 
   @override
   State<NewsScreen> createState() => _NewsScreenState();
